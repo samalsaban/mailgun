@@ -1,0 +1,436 @@
+<!doctype html>
+<html>
+ <head>
+  <title>Mailgun</title>
+  	<script>
+      function displayHTML() {
+	    var content = document.getElementById("mszc").value;
+	    popupWin = window.open('','popup','toolbar = no, status = no, width=500, height=600');
+	    popupWin.document.writeln(content);
+	  }
+      function displayHTMLinline() {
+	    //document.getElementById('mw').style.display = "block";
+		document.getElementById('test_iframe').style.display = "block";
+		document.getElementById('close_prv').style.display = "inline-block";
+	    var content = document.getElementById("mszc").value;
+		var iframe = document.getElementById('test_iframe');
+		var iframedoc = iframe.document;
+        if (iframe.contentDocument)
+           iframedoc = iframe.contentDocument;
+        else if (iframe.contentWindow)
+           iframedoc = iframe.contentWindow.document;
+
+        if (iframedoc) {
+          // Put the content in the iframe
+          iframedoc.open();
+          iframedoc.writeln(content);
+          iframedoc.close();
+        } else {
+          //just in case of browsers that don't support the above 3 properties.
+          //fortunately we don't come across such case so far.
+          alert('Cannot inject dynamic contents into iframe.');
+        }
+	    //popupWin = window.open('','popup','toolbar = no, status = no, width=500, height=600');
+	    //popupWin.document.writeln(content);
+	  }	  
+	</script>
+ </head>
+ <body id="root" style="margin: 0px; padding: 0px; font-family: 'Trebuchet MS',verdana;">
+
+	 <table width="80%" align="center" style="height: 100%;" cellpadding="10" cellspacing="0" border="2">
+      <tr>
+
+	    <td style="background-color:#444433; color:#fff; height:10px;">
+		  <b>Mailgun</b>
+        </td>
+	  </tr>
+      <tr align="center">
+	    <td width="30%" valign="top" style=" border:1px solid #666; font-size:13.5px; padding:10px; line-height:28px; text-align:inherit;">
+         <p><h3>Run Mode</h3></p>
+		 
+         <p>
+		   <div align="left" style="padding-left:110px;border-bottom:1px dotted #666;padding-bottom:20px;">
+		   <input name="runmode" id="runmode" type="radio" value="normal" class="rad" checked="checked" onchange="hideParams();">
+		   <b>Normal</b> 
+		   </br>
+		   <input name="runmode" id="runmode" type="radio" value="auto" class="rad" onchange="showParams();">
+		   <b>Auto</b>
+		   </br>
+		   </div>
+		   </hr>
+	     </p>		 
+		 
+		 <div name="autoparams" id="autoparams" style="display:none">
+		 <table>
+          <tr>
+            <td><b>Time to Send (seconds):</b></td>
+			<td><input name="tts" id="tts" type="text" value="" size="6"></td>
+          </tr>
+          <tr>
+            <td><b>Limit to Send (number):</b></td>
+			<td><input name="lts" id="lts" type="text" value="" size="6"></td>
+          </tr>
+          <tr>
+            <td><b>Process Limit (number):</b></td>
+			<td><input name="plimit" id="plimit" type="text" value="" size="6"></td>
+          </tr>
+         </table>
+         </div>
+		 
+        </td>
+		
+	    <td>
+		  <div align="center" style="padding-top:5px; text-align:left">
+          <form name="form1" method="POST">
+		  <table align="center" cellpadding="0" border="0" cellspacing="0" style="font-size:12px;">
+
+               <tr align="center">
+	             <td align="left" style="padding-right:20px;">
+				   <strong>Mode</strong>
+                 </td>			   
+	             <td>
+	               <div align="center" style="padding:10px; text-align:center">
+			         <input name="mode" id="mode" type="radio" value="test"> Test
+	                 <input name="mode" id="mode" type="radio" value="bulk"> Bulk 
+	               </div>
+                 </td>
+
+	           </tr>		   
+
+               <tr>
+	             <td align="left" style="padding-right:20px;">
+				   <strong>sub</strong>
+                 </td>
+	             <td align="left" colspan="3" style="padding-bottom:6px;">
+				   <input type="text" name="sub" id="sub" size="81">
+				 </td>
+	           </tr>
+	           <tr>
+	             <td align="left" style="padding-right:20px;">
+                   <strong>From (Email)</strong>
+                 </td>
+                 <td align="left" colspan="3" style="padding-bottom:6px;">
+	               <input type="text" name="f_mail" id="f_mail" size="81">
+                 </td>
+	           </tr>
+	           <tr>
+	             <td align="left" style="padding-right:20px;">
+                   <strong>From (Name)</strong>
+                 </td>
+                 <td align="left" colspan="3" style="padding-bottom:6px;">
+	               <input type="text" name="from_name" id="from_name" size="81">
+                 </td>
+	           </tr>			   
+               <tr>
+                 <td align="left" style="padding-right:20px;">
+                   <strong>Test Email Recepients</strong>
+	             </td>
+	             <td align="left" colspan="3" style="padding-bottom:6px;">
+	                 <textarea name="receipent" id="receipent" cols="40" rows="4" ></textarea>
+	             </td>
+	           </tr>
+               <tr style="padding-bottom:10px;">
+	             <td align="left" style="padding-right:20px;">
+	              <strong>Body</strong>
+	             </td>
+                 <td colspan="3" style="padding-bottom:6px;">
+				   <p>Type:
+                    <input name="mail_format" id="mail_format" type="radio" value="plain" class="rad">
+                     Plain
+                    <input name="mail_format" id="mail_format" type="radio" value="html" class="rad">
+                     Html
+					 <input type="button" value=" Preview " onClick="displayHTML()">
+	               </p>
+                   <textarea  name="mszc" id="mszc" cols="61" rows="10"></textarea>
+                 </td>
+               </tr>
+
+			   
+	           <tr style="padding-top:10px;">
+	             <td align="left">
+                   <strong>File Id</strong>
+                 </td>
+                 <td align="left">
+	               <input type="text" name="token" id="token" size="30">
+                 </td>				 
+	             <td align="left" style="padding-left:17px;padding-right:5px;">
+                   <strong>Limit</strong>
+                 </td>
+                 <td align="left">
+	               <input type="text" name="limit" id="limit" size="25">
+                 </td>
+	           </tr>
+
+	           <tr style="padding-top:10px;">
+	             <td align="left">
+                   <strong>Domain</strong>
+                 </td>
+                 <td colspan="3" align="left" style="padding-top:6px;">
+	               <input type="text" name="domain" id="domain" size="81">
+                 </td>				 
+	           </tr>	
+
+	           <tr style="padding-top:10px; display: none;"> 
+	             <td align="left">
+                   <strong>Public Key</strong>
+                 </td>
+                 <td colspan="3" align="left" style="padding-top:6px;">
+	               <input type="text" name="pubkey" id="pubkey" size="81">
+                 </td>				 
+	           </tr>		
+
+	           <tr style="padding-top:10px;">
+	             <td align="left">
+                   <strong>API Key</strong>
+                 </td>
+                 <td colspan="3" align="left" style="padding-top:6px;">
+	               <input type="text" name="pvtkey" id="pvtkey" size="81">
+                 </td>				 
+	           </tr>				   
+			   
+		   </table>  <!-- End Content -->
+		   </form>
+		     <div name="sendNormal" id="sendNormal" style="display:inline-block;">
+				 <table cellpadding="10" cellspacing="0" width="500" align="center" border="0">
+						 <tr >
+						   <td width="20%"></td>
+						   <td align="center" style="padding-left:6px;">
+						   <button name="sendmail" id="sendmail" style="width: 160px; height: 35px;"> Send </button>
+						   </td>
+						 </tr>
+				 </table>
+			 </div>
+
+		     <div name="sendAuto" id="sendAuto" style="display: none;">
+				 <table cellpadding="10" cellspacing="0" width="500" align="center" border="0">
+						 <tr align="center">
+						   <td width="20%"></td>
+						   <td align="center" style="padding-left:6px;">
+						   <button name="setautorun" id="setautorun" style="width: 160px; height: 35px;"> Set Auto Run </button>
+						   </td>						   
+						 </tr>
+				 </table>
+			 </div>			 
+			 
+          </div>
+	    </td>
+      </tr>
+	  <tr>
+	    <td colspan="2" align="center" style="padding:5px;">
+		   <span id="msg"></span>
+		</td>
+	  </tr>	  
+	  <tr id="mw">
+	     <td colspan="2" align="center">
+	     <iframe id="test_iframe" src="about:blank" width="800" height="700" style="display: none;"></iframe>
+		 <button name="close_prv" id="close_prv" style="display: none;"> Close </button>
+		 </td>
+	  </tr>	  
+	</table>
+
+
+  <script>
+
+     function getCheckedRadioVal(rname) {
+       var radioButtons = document.getElementsByName(rname);
+       for (var x = 0; x < radioButtons.length; x ++) {
+      if (radioButtons[x].checked) {
+	     return radioButtons[x].value
+        }
+       }
+     }
+  
+     function validateForm(){
+       
+       var mode = getCheckedRadioVal("mode");
+       if (mode == null || mode == ""){
+          alert("Please select a mode...");
+          return false;
+       }
+	   var sub = document.getElementById("sub").value;
+       if (sub == null || sub == ""){
+          alert("Please enter the sub");
+          return false;
+       }
+	   var f_mail = document.getElementById("f_mail").value;
+       if (f_mail == null || f_mail == ""){
+          alert("Please enter From(Email)");
+          return false;
+       }
+	   var from_name = document.getElementById("from_name").value;
+       if (from_name == null || from_name == ""){
+          alert("Please enter From(Name)");
+          return false;
+       }	
+       if (getCheckedRadioVal("mode")=="test") {
+	     var receipent = (document.getElementById("receipent").value).trim();
+ 
+		 //var receipent = document.forms["form1"]["receipent"].value;
+         if (receipent == null || receipent == ""){
+            alert("Please enter atleast 1 Test Email Recepient");
+            return false;
+         }
+       }
+       var mail_format = getCheckedRadioVal("mail_format");
+       if (mail_format == null || mail_format == ""){
+          alert("Please select content type...");
+          return false;
+       }	
+	   var mszc = document.getElementById("mszc").value;
+       if (mszc == null || mszc == ""){
+          alert("Please enter Email Body");
+          return false;
+       }	 
+       if (getCheckedRadioVal("mode")=="bulk") {
+	     var limit = document.getElementById("limit").value;
+         if (limit == null || limit == "" || limit < 1 || limit > 100000){
+            alert("Please enter a valid limit in the range 1 to 100000");
+            return false;
+         }
+       }
+	   
+	   var runmode = getCheckedRadioVal("runmode");
+	   if (getCheckedRadioVal("mode")=="bulk" && runmode == "normal") {
+	     var token = document.getElementById("token").value;
+         if (token == null || token == ""){
+            alert("Please enter a valid File Id");
+            return false;
+         }
+       }	
+	   
+	   if (runmode == "auto") {
+	       var tts = document.getElementById("tts").value;
+			 if (tts == null || tts == ""){
+				alert("Please enter a value fo Time to send");
+				return false;
+			 }		   
+		   var lts = document.getElementById("lts").value;
+			 if (lts == null || lts == ""){
+				alert("Please enter a value fo Limit to send");
+				return false;
+			 }		   
+	   }
+
+	   var domain = document.getElementById("domain").value;
+       if (domain == null || domain == ""){
+          alert("Please enter Domain");
+          return false;
+       }	
+
+	   /*
+	   var pubkey = document.getElementById("pubkey").value;
+       if (pubkey == null || pubkey == ""){
+          alert("Please enter Public Key value");
+          return false;
+       }
+	   
+	   */
+	   
+	   var pvtkey = document.getElementById("pvtkey").value;
+       if (pvtkey == null || pvtkey == ""){
+          alert("Please enter Private Key value");
+          return false;
+       }	   
+	   
+       // If validation passes, return true	   
+	   return true;
+     }
+ 
+     function processMails() {
+	  if (validateForm()){
+	    //displayHTMLinline();
+		var target =  document.getElementById("msg");
+		var mode = getCheckedRadioVal("mode");
+		var runmode = getCheckedRadioVal("runmode");
+		var tts = document.getElementById("tts").value;
+		var lts = document.getElementById("lts").value;
+		var sub = document.getElementById("sub").value;
+		var f_mail = document.getElementById("f_mail").value;	
+		var from_name = document.getElementById("from_name").value;
+        var receipent = document.getElementById("receipent").value;	
+        var mail_format = getCheckedRadioVal("mail_format");	
+        var mszc = document.getElementById("mszc").value;
+		var limit = document.getElementById("limit").value;
+		var token = document.getElementById("token").value;
+		var domain = document.getElementById("domain").value;
+		//var pubkey = document.getElementById("pubkey").value;
+		var pvtkey = document.getElementById("pvtkey").value;
+		
+		if (limit == null || limit == ""){
+          limit = 1;
+        }
+		
+		receipent = receipent.trimRight(",");
+		receipent = receipent.replace(/\n/g, ",");
+		
+		var post = "mode=" + encodeURIComponent(unescape(mode)) 
+		           + "&sub=" + encodeURIComponent(unescape(sub))
+				   + "&f_mail=" + encodeURIComponent(unescape(f_mail))
+                   + "&from_name=" + encodeURIComponent(unescape(from_name))				   
+				   + "&receipent=" + encodeURIComponent(unescape(receipent))
+				   + "&mail_format=" + encodeURIComponent(unescape(mail_format))
+				   + "&mszc=" + encodeURIComponent(unescape(mszc))
+				   + "&limit=" + encodeURIComponent(unescape(limit))
+				   + "&token=" + encodeURIComponent(unescape(token))
+				   + "&runmode=" + encodeURIComponent(unescape(runmode))				   
+				   + "&tts=" + encodeURIComponent(unescape(tts))
+				   + "&lts=" + encodeURIComponent(unescape(lts))				   
+				   + "&domain=" + encodeURIComponent(unescape(domain))
+				   + "&pvtkey=" + encodeURIComponent(unescape(pvtkey));
+	     
+		var xhr = new XMLHttpRequest();	
+        if (runmode == "auto") {
+		   xhr.open("POST", "mgprep.php", true);
+		   //document.getElementById("setautorun").disabled = true;
+        } else {		
+           xhr.open("POST", "mgmails.php", true);
+		}
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("Content-length", post.length);
+        xhr.onreadystatechange = function () {
+          if(xhr.readyState == 2) {
+             target.innerHTML = 'Processing...';
+          }
+          if(xhr.readyState == 4 && xhr.status == 200) {
+             target.innerHTML = xhr.responseText;
+          }
+        }
+        xhr.send(post);		
+      }
+	}
+
+
+
+   function closePrv() {
+     	document.getElementById('test_iframe').style.display = "none";
+		document.getElementById('close_prv').style.display = "none";
+		//document.getElementById('mw').style.display = "none";
+   }
+
+   function hideParams(){
+     	document.getElementById('autoparams').style.display = "none";
+		document.getElementById('sendNormal').style.display = "inline-block";
+		document.getElementById('sendAuto').style.display = "none";		
+   }  
+
+   function showParams(){
+     	document.getElementById('autoparams').style.display = "block";
+		document.getElementById('sendNormal').style.display = "none";		
+		document.getElementById('sendAuto').style.display = "inline-block";
+   }      
+	 
+   var button1 = document.getElementById("sendmail");
+   button1.addEventListener("click", processMails);
+
+   var button2 = document.getElementById("setautorun");
+   button2.addEventListener("click", processMails);   
+   
+   var button_prv = document.getElementById("close_prv");
+   button_prv.addEventListener("click", closePrv);   
+  
+ </script>
+
+ </body>
+</html>
+
+

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<style> 
+ 
+  
+ input[type=file] {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+border-radius: .2em;
+border: 2px solid #6c5ce7;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+input[type=file]::file-selector-button {
+  border: 2px solid #6c5ce7;
+  padding: .2em .4em;
+  border-radius: .2em;
+  background-color: #1eed07;
+  transition: 1s;
+  border-radius: 10px;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #ecffe8;
+  border: 2px solid #00cec9;
+  border-radius: 10px;
+}
+input[value="Insert Text"]  {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+</style>
+<body>
+<form action="n1.php" method="post" enctype="multipart/form-data">
+    <strong> Text File : </strong><input type="file" name="tempfile" id="tempfile">
+<i class="fa fa-upload fa-lg pr-2" aria-hidden="true"></i>
+<input type="submit" class="btn btn-warning" value="&#xf00d; Insert Text" />
+
+</form>
+<div>
+
+<form action="n1.php" method="post" encrypting="multipart/form-data">
+    Select email data file to upload:
+    <input type="file" name="tempfile" id="tempfile">
+    <input type="submit" value="Upload File" name="submit">
+</form>
+</div>
+<br/>
+<div>
+<form action="uploadfromlist.php" method="post" encrypting="multipart/form-data">
+    Select from-email list file to upload:
+    <input type="file" name="tempfile" id="tempfile">
+    <input type="submit" value="Upload File" name="submit">
+</form>
+</div>
+</body>
+</html>
+
+
+
